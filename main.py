@@ -41,5 +41,5 @@ def detect_faces_on_camera():
     cap.release()
 
 
-mark_faces_on_image('resources/picutres/faces-in-a-crowd.jpeg')
+mark_faces_on_image('resources/picutres/images-2.jpg')
 #detect_faces_on_camera()
