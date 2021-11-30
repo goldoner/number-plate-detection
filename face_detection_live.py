@@ -2,6 +2,7 @@ import cv2
 
 FACE_CASCADE = cv2.CascadeClassifier('resources/face-detection-config.xml')
 
+
 def mark_faces_on_image(path_to_image):
     img = cv2.imread(path_to_image)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -41,5 +42,5 @@ def detect_faces_on_camera():
     cap.release()
 
 
-mark_faces_on_image('resources/picutres/faces-in-a-crowd.jpeg')
-#detect_faces_on_camera()
+mark_faces_on_image('resources/pictures/faces-in-a-crowd.jpeg')
+# detect_faces_on_camera()
