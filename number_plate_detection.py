@@ -5,18 +5,19 @@ import numpy as np
 import pytesseract
 from os import listdir
 from os.path import isfile, join
-import glob
+import re
+
 
 
 # print(glob.glob("/Users/dan0bar/Desktop/number-plate-detection/frames/*"))
 
 # 2160 worked, 1030 partially worked,
-path_to_picture = 'frames/Frame1030.jpg'
+path_to_picture = 'frames/Frame2160.jpg'
 
 onlyfiles = [f for f in listdir('./frames') if isfile(join('./frames', f))]
 
 onlyfiles.sort()
-print(type(onlyfiles))
+# print(type(onlyfiles))
 # print(onlyfiles)
 
 
@@ -78,21 +79,21 @@ def detect_plate_on_frame(path_to_picture):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
-# detect_plate_on_frmae(path_to_picture)
+# print(detect_plate_on_frame(path_to_picture))
 
 def num_there(s):
     return any(i.isdigit() for i in s)
+
+def upperCase(s):
+    return any(i.isupper() for i in s)
 
 
 for i in onlyfiles:
     try:
         result = detect_plate_on_frame(f'frames/{i}')
         result = "".join(result.split())
-        if (len(result) > 7 and len(result) <11 and num_there(result)):
+        if (len(result) > 7 and len(result) <11 and num_there(result) and upperCase(result)):
             print(i)
             print(result)
     except:
         pass
-
-
-
