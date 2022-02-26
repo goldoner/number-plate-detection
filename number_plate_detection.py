@@ -4,14 +4,15 @@ import imutils
 import numpy as np
 import pytesseract
 
-path_to_picture = 'resources/pictures/test3.png'
+# 2160 worked, 1030 partially worked,
+path_to_picture = 'frames/Frame2160.jpg'
 
 img = cv2.imread(path_to_picture, cv2.IMREAD_COLOR)
 image = PIL.Image.open(path_to_picture)
 width, height = image.size
+print(height)
+print(width)
 
-width = 600
-height = 400
 
 img = cv2.resize(img, (width, height))
 
