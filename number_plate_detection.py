@@ -15,8 +15,9 @@ path_to_picture = 'frames/Frame1030.jpg'
 
 onlyfiles = [f for f in listdir('./frames') if isfile(join('./frames', f))]
 
+onlyfiles.sort()
 print(type(onlyfiles))
-print(onlyfiles)
+# print(onlyfiles)
 
 
 def detect_plate_on_frame(path_to_picture):
@@ -24,8 +25,8 @@ def detect_plate_on_frame(path_to_picture):
     img = cv2.imread(path_to_picture, cv2.IMREAD_COLOR)
     image = PIL.Image.open(path_to_picture)
     width, height = image.size
-    print(height)
-    print(width)
+    # print(height)
+    # print(width)
 
 
     img = cv2.resize(img, (width, height))
@@ -50,35 +51,48 @@ def detect_plate_on_frame(path_to_picture):
 
     if screenCnt is None:
         detected = 0
-        print("No contour detected")
+        # print("No contour detected")
     else:
         detected = 1
 
     if detected == 1:
         cv2.drawContours(img, [screenCnt], -1, (0, 0, 255), 3)
 
-        mask = np.zeros(gray.shape, np.uint8)
-        new_image = cv2.drawContours(mask, [screenCnt], 0, 255, -1, )
-        new_image = cv2.bitwise_and(img, img, mask=mask)
+    mask = np.zeros(gray.shape, np.uint8)
+    new_image = cv2.drawContours(mask, [screenCnt], 0, 255, -1, )
+    new_image = cv2.bitwise_and(img, img, mask=mask)
 
-        (x, y) = np.where(mask == 255)
-        (topx, topy) = (np.min(x), np.min(y))
-        (bottomx, bottomy) = (np.max(x), np.max(y))
-        Cropped = gray[topx:bottomx + 1, topy:bottomy + 1]
+    (x, y) = np.where(mask == 255)
+    (topx, topy) = (np.min(x), np.min(y))
+    (bottomx, bottomy) = (np.max(x), np.max(y))
+    Cropped = gray[topx:bottomx + 1, topy:bottomy + 1]
 
-        text = pytesseract.image_to_string(Cropped, config='--psm 11')
-        print("Detected license plate Number is:", text)
-        img = cv2.resize(img, (500, 300))
-        Cropped = cv2.resize(Cropped, (400, 200))
-        cv2.imshow('car', img)
-        cv2.imshow('Cropped', Cropped)
+    text = pytesseract.image_to_string(Cropped, config='--psm 11')
+    return text
+    # print("Detected license plate Number is:", text)
+    # img = cv2.resize(img, (500, 300))
+    # Cropped = cv2.resize(Cropped, (400, 200))
+    # cv2.imshow('car', img)
+    # cv2.imshow('Cropped', Cropped)
 
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 # detect_plate_on_frmae(path_to_picture)
 
+def num_there(s):
+    return any(i.isdigit() for i in s)
+
 
 for i in onlyfiles:
-    print(i)
-    detect_plate_on_frame(f'frames/{i}')
+    try:
+        result = detect_plate_on_frame(f'frames/{i}')
+        result = "".join(result.split())
+        if (len(result) > 7 and len(result) <11 and num_there(result)):
+            print(i)
+            print(result)
+    except:
+        pass
+
+
+

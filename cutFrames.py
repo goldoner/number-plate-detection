@@ -17,7 +17,7 @@ for filename in os.listdir(folder):
 
 
 # Opens video to cut it into frames.
-cap = cv2.VideoCapture("video/2021_11_05_10_58_54.h264")
+cap = cv2.VideoCapture("video/2021_11_05_12_08_54.h264")
 i = 0
 
 while (cap.isOpened()):
